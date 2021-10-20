@@ -7,7 +7,7 @@
             ><img alt="epiR logo" src="../assets/epiRLogo70x40.png"
           /></router-link>
         </div>
-        <b-navbar-nav class="nav">
+        <b-navbar-nav class="nav" v-if="loggedIn">
           <b-nav-item class="nav-item1">
             <router-link to="/menus">
               <b-icon icon="menu-button-fill"></b-icon>
@@ -24,12 +24,13 @@
               顧客
             </router-link>
             |
-            <span v-if="loggedIn">Yes</span>
-            <span v-else>No</span>
           </b-nav-item>
           <b-nav-item-dropdown text="アカウント" right>
             <b-dropdown-item>
               <router-link to="/customer">アカウント</router-link>
+            </b-dropdown-item>
+            <b-dropdown-item @click="signOut">
+              アカウント設定
             </b-dropdown-item>
             <b-dropdown-item @click="signOut">
               ログアウト
@@ -44,13 +45,17 @@
 <script>
 import { getAuth, signOut } from "firebase/auth";
 export default {
-
+  data() {
+    return {
+      loggedIn: false
+    }
+  },
   methods: {
     signOut() {
       const auth = getAuth();
       signOut(auth).then(() => {
         this.$router.push({name: "Home"})
-        // this.loggedIn = false
+        this.loggedIn = false
       }).catch((error) => {
         console.log(error);
       });

@@ -52,22 +52,23 @@ export default {
     };
   },
   mounted: function () {
-    db.collection("menus").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        this.menus = doc.data()
+//     db.collection("menus").get().then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//         // doc.data() is never undefined for query doc snapshots
+//         this.menus = doc.data()
+//         console.log(doc.id, " => ", doc.data());
+//     });
+// });
+    db.collection("menus")
+      .get()
+      .then((querySnapshot) => {
+        const array = [];
+        querySnapshot.forEach((doc) => {
+          array.push(doc.data())
+          this.menus = array
         console.log(doc.id, " => ", doc.data());
-    });
-});
-  //  db.collection("menus")
-  //    .get()
-  //    .then((querySnapshot) => {
-  //      const array = [];
-  //      querySnapshot.forEach((doc) => {
-  //        array.push(doc.data());
-  //      });
-  //      this.menus = array
-  //    })
+        });
+      })
   },
 };
 </script>
