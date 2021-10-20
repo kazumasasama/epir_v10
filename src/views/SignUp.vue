@@ -1,52 +1,43 @@
 <template>
   <div>
-    <div class="container">
-      <h1>epiR 業務管理</h1>
     <div v-if="error" class="error">{{ error.message }}</div>
     <form @submit.prevent="pressed">
-      管理者ログイン
+      Register
     <div class="email">
-      <input type="email" v-model="email" placeholder="メールアドレス" autocomplete="false">
+      <input type="email" v-model="email" placeholder="email" autocomplete="false">
     </div>
     <div class="password">
-      <input type="password" v-model="password" placeholder="パスワード" autocomplete="false">
+      <input type="password" v-model="password" placeholder="password" autocomplete="false">
     </div>
-    <button type="submit">ログイン</button>
+    <button type="submit">Register</button>
     </form>
-    </div>
   </div>
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default {
-  name: "Home",
-  components: {
-  },
   data() {
     return {
       email: "",
       password: "",
       error: "",
-      // loggedIn: false,
     }
   },
   methods: {
     async pressed() {
       const auth = getAuth();
-      signInWithEmailAndPassword(auth, this.email, this.password)
+      createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          // this.loggedIn = true
           console.log(user);
           this.$router.replace({name: "MenuIndex"})
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          this.error = errorMessage
           console.log(errorCode);
           console.log(errorMessage);
         });
@@ -70,8 +61,5 @@ button {
   width: 400px;
   height: 75px;
   font-size: 100%;
-}
-form {
-  margin-top: 100px;
 }
 </style>

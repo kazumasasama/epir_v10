@@ -15,7 +15,7 @@
 
 <script>
 import db from "@/firebase.js"
-import MenuTable from "@/views/menu/components/MenuTable.vue";
+import MenuTable from "./components/MenuTable.vue";
 
 export default {
   name: "MenuIndex",
@@ -52,15 +52,22 @@ export default {
     };
   },
   mounted: function () {
-   db.collection("menus")
-     .get()
-     .then((querySnapshot) => {
-       const array = [];
-       querySnapshot.forEach((doc) => {
-         array.push(doc.data());
-       });
-       this.menus = array
-     })
+    db.collection("menus").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        this.menus = doc.data()
+        console.log(doc.id, " => ", doc.data());
+    });
+});
+  //  db.collection("menus")
+  //    .get()
+  //    .then((querySnapshot) => {
+  //      const array = [];
+  //      querySnapshot.forEach((doc) => {
+  //        array.push(doc.data());
+  //      });
+  //      this.menus = array
+  //    })
   },
 };
 </script>

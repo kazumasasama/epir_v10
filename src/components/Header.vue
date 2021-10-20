@@ -24,13 +24,15 @@
               顧客
             </router-link>
             |
+            <span v-if="loggedIn">Yes</span>
+            <span v-else>No</span>
           </b-nav-item>
           <b-nav-item-dropdown text="アカウント" right>
             <b-dropdown-item>
               <router-link to="/customer">アカウント</router-link>
             </b-dropdown-item>
-            <b-dropdown-item>
-              <router-link to="#">ログアウト</router-link>
+            <b-dropdown-item @click="signOut">
+              ログアウト
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -40,6 +42,21 @@
 </template>
 
 <script>
+import { getAuth, signOut } from "firebase/auth";
+export default {
+
+  methods: {
+    signOut() {
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        this.$router.push({name: "Home"})
+        // this.loggedIn = false
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+  }
+}
 </script>
 
 <style>

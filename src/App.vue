@@ -37,4 +37,11 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+h1 {
+  padding-top: 40px;
+  margin-bottom: 30px;
+  text-align: left;
+  font-size: 35px;
+  color: rgb(77, 77, 77);
+}
 </style>
